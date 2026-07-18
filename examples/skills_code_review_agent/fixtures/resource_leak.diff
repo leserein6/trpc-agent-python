@@ -1,0 +1,5 @@
+--- a/export.py
++++ b/export.py
+@@ -1 +1,2 @@
+ def export():
++    fp = open("out.txt", "w")

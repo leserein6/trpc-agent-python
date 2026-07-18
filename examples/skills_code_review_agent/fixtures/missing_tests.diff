@@ -1,0 +1,5 @@
+--- a/service.py
++++ b/service.py
+@@ -1 +1,2 @@
+ def charge():
++    return gateway.charge()

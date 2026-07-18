@@ -1,0 +1,5 @@
+--- a/worker.py
++++ b/worker.py
+@@ -1 +1,2 @@
+ import asyncio
++asyncio.create_task(process())

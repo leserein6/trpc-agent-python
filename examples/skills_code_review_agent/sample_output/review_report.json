@@ -1,0 +1,100 @@
+{
+  "created_at": "2026-07-18T22:44:25.759764+00:00",
+  "error": null,
+  "filter_events": [
+    {
+      "blocked": false,
+      "created_at": "2026-07-18T22:44:25.759614+00:00",
+      "decision": "allow",
+      "elapsed_ms": 0.5807019999792828,
+      "evidence": "python",
+      "reason": "Request satisfies the configured policy.",
+      "risk_level": "low",
+      "rule_id": "allow-policy",
+      "tool_name": "skill_run"
+    }
+  ],
+  "findings": [
+    {
+      "category": "sensitive_information",
+      "confidence": 0.99,
+      "evidence": "api_key = \"***REDACTED***\"",
+      "file": "config.py",
+      "line": 2,
+      "needs_human_review": false,
+      "recommendation": "Remove the plaintext value, rotate the credential, and use an approved secret store or injected environment variable.",
+      "severity": "critical",
+      "source": [
+        "static_rule:secret"
+      ],
+      "title": "Hard-coded sensitive credential"
+    }
+  ],
+  "input": {
+    "changed_files": [
+      "config.py"
+    ],
+    "kind": "fixture",
+    "sha256": "45ab630bb4dc3ca1e5ae542624c238509a7f1506a79a4789915fdc06609cfb26",
+    "summary": "fixtures/secret.diff"
+  },
+  "metrics": {
+    "blocked_calls": 0,
+    "exception_distribution": {},
+    "finding_count": 1,
+    "model_elapsed_ms": 0.0004290000106266234,
+    "parser_elapsed_ms": 0.0635030000921688,
+    "rule_elapsed_ms": 0.10166199990635505,
+    "sandbox_elapsed_ms": 0.1,
+    "severity_distribution": {
+      "critical": 1,
+      "high": 0,
+      "info": 0,
+      "low": 0,
+      "medium": 0
+    },
+    "tool_calls": 1,
+    "total_elapsed_ms": 1.4294770001015422,
+    "warning_count": 0
+  },
+  "needs_human_review": [],
+  "sandbox_runs": [
+    {
+      "backend": "fake",
+      "command": "python scripts/analyze_diff.py $WORK_DIR/inputs/change.diff --output /out/tool_findings.json",
+      "elapsed_ms": 0.1,
+      "error_type": "",
+      "exit_code": 0,
+      "output_files": [],
+      "status": "completed",
+      "stderr": "",
+      "stdout": "fake sandbox completed",
+      "timed_out": false,
+      "truncated": false
+    }
+  ],
+  "status": "completed",
+  "summary": {
+    "filter": {
+      "allow": 1,
+      "deny": 0,
+      "needs_human_review": 0
+    },
+    "finding_count": 1,
+    "human_review_count": 0,
+    "sandbox": {
+      "failed": 0,
+      "succeeded": 1,
+      "timed_out": 0,
+      "total": 1
+    },
+    "severity": {
+      "critical": 1,
+      "high": 0,
+      "info": 0,
+      "low": 0,
+      "medium": 0
+    }
+  },
+  "task_id": "033942c9-6168-40c3-8d4d-6fc9e390fb4d"
+}

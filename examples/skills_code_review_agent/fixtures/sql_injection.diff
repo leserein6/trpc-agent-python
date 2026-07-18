@@ -1,0 +1,5 @@
+--- a/repository.py
++++ b/repository.py
+@@ -1 +1,2 @@
+ def find(cur, user):
++    cur.execute(f"SELECT * FROM users WHERE name = '{user}'")
