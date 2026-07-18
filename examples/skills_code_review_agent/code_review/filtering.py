@@ -169,8 +169,7 @@ def build_trpc_tool_filter(policy: SafetyPolicy, audit_callback=None):
                 env=dict(args.get("env", {}) or {}),
                 timeout_seconds=float(args.get("timeout", 0) or 0),
                 max_output_bytes=policy.max_output_bytes,
-                script_content=str(
-                    args.get("stdin", "") or args.get("editor_text", "")),
+                script_content=str(args.get("editor_text", "")),
             )
             event = evaluate_request(request, policy)
             if audit_callback:

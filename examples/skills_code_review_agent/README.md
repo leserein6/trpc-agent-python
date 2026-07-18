@@ -26,3 +26,7 @@ Inputs: `--diff-file`, `--repo-path`, `--fixture`, or `--files-from` + `--files-
 Run `python evaluate_fixtures.py` to reproduce the public fixture precision/recall summary.
 
 Local sandbox mode is an explicit development fallback only.
+
+## Known boundaries
+
+Binary patches and rename-only metadata are not analyzed. Container execution requires a reachable Docker daemon and the configured image. The fake path is for deterministic CI only and is not a security boundary.

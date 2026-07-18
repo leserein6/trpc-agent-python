@@ -35,8 +35,16 @@ def from_repo(repo_path: str | Path) -> ReviewInput:
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or "git diff failed")
     text = result.stdout
+    untracked = subprocess.run([
+        "git", "-C", str(root), "ls-files", "--others", "--exclude-standard"
+    ], capture_output=True, text=True, timeout=20, check=False)
+    if untracked.returncode != 0:
+        raise RuntimeError(untracked.stderr.strip() or "git ls-files failed")
+    files = [line.strip() for line in untracked.stdout.splitlines() if line.strip()]
+    if files:
+        text += from_file_list(root, files).text
     if not text.strip():
-        raise ValueError("repository has no working-tree or staged changes")
+        raise ValueError("repository has no working-tree, staged, or untracked changes")
     return ReviewInput(text, "repo_path", str(root))
 
 

@@ -180,3 +180,33 @@ def test_redaction_common_shapes():
                  "ghp_123456789012345678901234567890123456",
                  "abcdefghijklmnop", "xoxb-1234567890-abcdef"):
         assert item not in redacted
+
+
+def test_repo_input_includes_staged_unstaged_and_untracked_once(tmp_path):
+    import subprocess
+    from code_review.input_loader import from_repo
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    subprocess.run(["git", "init", "-q", str(repo)], check=True)
+    subprocess.run(["git", "-C", str(repo), "config", "user.email", "test@example.com"], check=True)
+    subprocess.run(["git", "-C", str(repo), "config", "user.name", "Test"], check=True)
+    (repo / "tracked.py").write_text("value = 1\n")
+    subprocess.run(["git", "-C", str(repo), "add", "tracked.py"], check=True)
+    subprocess.run(["git", "-C", str(repo), "commit", "-qm", "base"], check=True)
+    (repo / "tracked.py").write_text("value = 2\n")
+    subprocess.run(["git", "-C", str(repo), "add", "tracked.py"], check=True)
+    (repo / "tracked.py").write_text("value = 3\n")
+    (repo / "new.py").write_text("token = 'abcdefghijk'\n")
+    value = from_repo(repo)
+    assert value.text.count("+++ b/tracked.py") == 1
+    assert value.text.count("+++ b/new.py") == 1
+
+
+def test_payload_model_reviewer_rejects_unknown_files():
+    from code_review.model_reviewer import PayloadModelReviewer
+    files = parse_unified_diff(fixture("clean"))
+    findings, _ = PayloadModelReviewer([
+        {"severity": "high", "file": "missing.py", "line": 1, "title": "x"},
+        {"severity": "high", "file": "app.py", "line": 2, "title": "valid", "confidence": .9},
+    ]).review(files)
+    assert len(findings) == 1 and findings[0].source == ["llm"]
