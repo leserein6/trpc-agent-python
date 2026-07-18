@@ -1,0 +1,12 @@
+tool_safety:
+  allowed_commands: [python, python3, pytest]
+  denied_commands: [sudo, su, rm, dd, mkfs, mount]
+  forbidden_paths: ["/", "/etc", "/root", "~/.ssh", ".env"]
+  allowed_network_domains: []
+  environment_allowlist: [PATH, PYTHONPATH, LANG, LC_ALL]
+  max_timeout_seconds: 30
+  max_output_bytes: 65536
+  container_image: python:3.12-slim
+  memory_limit: 256m
+  pids_limit: 128
+  nano_cpus: 1000000000

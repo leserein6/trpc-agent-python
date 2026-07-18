@@ -1,0 +1,12 @@
+{
+  "clean": [],
+  "secret": ["sensitive_information"],
+  "shell_injection": ["security"],
+  "async_leak": ["async_lifecycle"],
+  "database_lifecycle": ["database_lifecycle"],
+  "resource_leak": ["resource_lifecycle"],
+  "sql_injection": ["security"],
+  "duplicate": ["sensitive_information"],
+  "missing_tests": ["testing"],
+  "sandbox_failure": ["testing"]
+}

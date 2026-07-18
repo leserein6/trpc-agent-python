@@ -1,0 +1,3 @@
+# 方案设计说明
+
+本方案把代码评审拆成“确定性分析、模型候选、治理执行、证据融合、持久化与审计”五层。`code-review` Skill 仅声明稳定工作流和规则，脚本通过 tRPC `SkillToolSet` 按需加载；真实模式使用 Container Workspace Runtime，源代码和 Skill 只读挂载，网络默认关闭，并设置超时、内存、进程数、CPU、输出大小和环境变量白名单。任何命令先经过可配置 Filter，得到 `allow / deny / needs_human_review`，后两者不会进入沙箱。规则、模型和沙箱统一生成 Finding，按文件、行号、类别和标题去重；低置信度或依赖上下文的结果进入人工复核，避免混入高置信结论。SQLite 通过抽象接口保存 task、输入摘要、sandbox run、Filter 事件、Finding、指标和最终报告，后续可替换其他 SQL 后端。所有输出在进入日志、数据库和 JSON/Markdown 报告前执行递归脱敏。OpenTelemetry span 记录解析、规则、模型和沙箱阶段，报告汇总总耗时、沙箱耗时、工具调用、拦截、严重级别和异常分布。fake model + fake sandbox 模式不依赖 API Key 或 Docker，用于 CI 回归；本地执行仅作为显式开发 fallback，不能替代容器隔离。

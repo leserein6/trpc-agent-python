@@ -1,0 +1,5 @@
+--- a/repository.py
++++ b/repository.py
+@@ -1 +1,2 @@
+ import sqlite3
++conn = sqlite3.connect("app.db")

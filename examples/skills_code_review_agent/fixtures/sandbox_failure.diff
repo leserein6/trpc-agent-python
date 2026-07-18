@@ -1,0 +1,5 @@
+--- a/app.py
++++ b/app.py
+@@ -1 +1,2 @@
+ def healthy():
++    return True
